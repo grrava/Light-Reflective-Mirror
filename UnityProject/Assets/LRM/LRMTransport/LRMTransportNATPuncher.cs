@@ -31,6 +31,8 @@ namespace LightReflectiveMirror
             {
                 if (_isServer)
                 {
+                    lock (_serverProxies)
+                    {
                     if (_serverProxies.TryGetByFirst(newClientEP, out SocketProxy foundProxy))
                     {
                         if (data.Length > 2)
@@ -40,6 +42,7 @@ namespace LightReflectiveMirror
                     {
                         _serverProxies.Add(newClientEP, new SocketProxy(_NATIP.Port + 1, newClientEP));
                         _serverProxies.GetByFirst(newClientEP).dataReceived += ServerProcessProxyData;
+                        }
                     }
                 }
 
